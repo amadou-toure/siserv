@@ -10,6 +10,7 @@ const getDisques = async(req,res)=>{
   
 }
 const createDisque= async (req,res)=>{
+    console.log(req.body.NOM)
     try {
         const disque = new disqueModel(req.body)
         const result = await disque.save();
