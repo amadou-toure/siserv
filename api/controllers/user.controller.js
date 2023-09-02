@@ -5,14 +5,14 @@ const jwt = require('jsonwebtoken');
 const getUsers = async (req, res) => {
     try {
         const users = await userModel.find();
-        res.json(users);
+        res.json({data:users,message:"ok",code:200});
     } catch (error) {
-        res.status(500).json({ message: `Error: ${error}` });
+        res.json({ message: `Error: ${error}`,code:500 });
     }
 };
 
 const createUser = async (req, res) => {
-    console.log(req.body)
+    console.log(req.body.PASSWORD)
     try {
         const hashedPassword = await bCrypt.hash(req.body.PASSWORD, 10);
 
@@ -24,71 +24,72 @@ const createUser = async (req, res) => {
         const result = await user.save();
 
         if (result) {
-            res.json({ message: `User ${req.body.NOM} created successfully` });
+            res.json({ message: `User ${req.body.USERNAME} created successfully`,code:201 });
         } else {
-            res.json({ message: 'Error during creation' });
+            res.json({ message: 'Error during creation',code:500 });
         }
     } catch (error) {
         console.error('Error creating user:', error);
-        res.status(500).json({ message: 'An error occurred during user creation' });
+        res.json({ message: 'An error occurred during user creation' , code:500});
     }
 };
 
 const login = async (req, res) => {
     const { USERNAME, PASSWORD } = req.body;
+    console.log(req.body)
 
     try {
         const user = await userModel.findOne({ USERNAME });
 
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.json({ message: 'User not found',code:404 });
         }
 
         const passwordMatch = await bCrypt.compare(PASSWORD, user.PASSWORD);
 
         if (passwordMatch) {
 
-            res.status(200).json({
+            res.json({data:{
                 userId: user._id,
                 token: jwt.sign(
                     { userId: user._id },
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h' }
-                )
+                )},code:200,message:"ok"
             });
         } else {
-            res.status(401).json({ message: 'Invalid credentials' });
+            res.json({ message: 'Invalid credentials',code:401});
         }
     } catch (error) {
         console.error('Error during login:', error);
-        res.status(500).json({ message: 'An error occurred during login' });
+        res.json({ message: 'An error occurred during login',code:500 });
     }
 };
 
 const updateUser = async (req, res) => {
     try {
         const user = await userModel.findByIdAndUpdate(req.params.id, req.body);
-        res.json({ message: 'Updated successfully' });
+        res.json({ message: 'Updated successfully',code:204 });
     } catch (err) {
-        res.status(500).json({ message: err });
+        res.json({ message: err,code:500 });
     }
 };
 
 const getOneUser = async (req, res) => {
     try {
         const user = await userModel.findById(req.params.id);
-        res.json(user);
+        res.json({data:user,message:'ok',code:200});
     } catch (err) {
-        res.status(500).json({ message: err });
+        res.json({ message: err,code:500 });
     }
 };
 
 const deleteUser = async (req, res) => {
     try {
         const user = await userModel.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Deleted successfully' });
+        res.json({ message: 'Deleted successfully',code:200 });
     } catch (err) {
-        res.status(500).json({ message: err });
+        res.json({ message: err ,code:500});
     }
 };
 
