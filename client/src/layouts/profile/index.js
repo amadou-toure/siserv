@@ -27,7 +27,7 @@ import { TextField, Link } from "@mui/material";
 
 // Overview page components
 
-import getUser from "services/user.service";
+import { getUser } from "services/user.service";
 import Card from "@mui/material/Card";
 
 import MDAvatar from "components/MDAvatar";
