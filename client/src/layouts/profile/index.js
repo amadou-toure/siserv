@@ -15,13 +15,6 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
-
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
-
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -30,171 +23,259 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
-import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
+import { TextField, Link } from "@mui/material";
 
 // Overview page components
-import Header from "layouts/profile/components/Header";
-import PlatformSettings from "layouts/profile/components/PlatformSettings";
 
-// Data
-import profilesListData from "layouts/profile/data/profilesListData";
+import getUser from "services/user.service";
+import Card from "@mui/material/Card";
+
+import MDAvatar from "components/MDAvatar";
+import MDButton from "components/MDButton";
+
+// Material Dashboard 2 React base styles
+import breakpoints from "assets/theme/base/breakpoints";
 
 // Images
-import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
-import homeDecor4 from "assets/images/home-decor-4.jpeg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+import burceMars from "assets/images/bruce-mars.jpg";
+import backgroundImage from "assets/images/bg-profile.jpeg";
+import { Button } from "@mui/material";
+import { User } from "models/user.model";
+import { useEffect, useState } from "react";
+import { yellow } from "@mui/material/colors";
 
 function Overview() {
+  const [user, setUser] = useState({});
+  const [tabsOrientation, setTabsOrientation] = useState("horizontal");
+  const [tabValue, setTabValue] = useState(0);
+  const [openForm, setOpenForm] = useState(false);
+
+  useEffect(() => {
+    // A function that sets the orientation state of the tabs.
+    function handleTabsOrientation() {
+      return window.innerWidth < breakpoints.values.sm
+        ? setTabsOrientation("vertical")
+        : setTabsOrientation("horizontal");
+    }
+
+    /** 
+     The event listener that's calling the handleTabsOrientation function when resizing the window.
+    */
+    window.addEventListener("resize", handleTabsOrientation);
+
+    // Call the handleTabsOrientation function to set the state with the initial value.
+    handleTabsOrientation();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleTabsOrientation);
+  }, [tabsOrientation]);
+
+  const handleSetTabValue = (event, newValue) => setTabValue(newValue);
+
+  getUser(setUser);
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mb={2} />
-      <Header>
-        <MDBox mt={5} mb={3}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={6} xl={4}>
-              <PlatformSettings />
-            </Grid>
-            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-              <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
-              <ProfileInfoCard
-                title="profile information"
-                description="Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
-                info={{
-                  fullName: "Alec M. Thompson",
-                  mobile: "(44) 123 1234 123",
-                  email: "alecthompson@mail.com",
-                  location: "USA",
-                }}
-                social={[
-                  {
-                    link: "https://www.facebook.com/CreativeTim/",
-                    icon: <FacebookIcon />,
-                    color: "facebook",
-                  },
-                  {
-                    link: "https://twitter.com/creativetim",
-                    icon: <TwitterIcon />,
-                    color: "twitter",
-                  },
-                  {
-                    link: "https://www.instagram.com/creativetimofficial/",
-                    icon: <InstagramIcon />,
-                    color: "instagram",
-                  },
-                ]}
-                action={{ route: "", tooltip: "Edit Profile" }}
-                shadow={false}
+      <MDBox position="relative" mb={5}>
+        <MDBox
+          display="flex"
+          alignItems="center"
+          position="relative"
+          minHeight="18.75rem"
+          borderRadius="xl"
+          sx={{
+            backgroundImage: ({
+              functions: { rgba, linearGradient },
+              palette: { gradients },
+            }) =>
+              `${linearGradient(
+                rgba(gradients.info.main, 0.6),
+                rgba(gradients.info.state, 0.6)
+              )}, url(${backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "50%",
+            overflow: "hidden",
+          }}
+        />
+        <Card
+          sx={{
+            position: "relative",
+            mt: -8,
+            mx: 3,
+            py: 2,
+            px: 2,
+          }}
+        >
+          <Grid container spacing={3} alignItems="center" mb={9}>
+            <Grid item>
+              <MDAvatar
+                src={burceMars}
+                alt="profile-image"
+                size="xl"
+                shadow="sm"
               />
-              <Divider orientation="vertical" sx={{ mx: 0 }} />
             </Grid>
-            <Grid item xs={12} xl={4}>
-              <ProfilesList title="conversations" profiles={profilesListData} shadow={false} />
+            <Grid item>
+              <MDBox height="100%" mt={0.5} lineHeight={1}>
+                <MDTypography variant="h5" fontWeight="medium">
+                  {user.USERNAME}
+                </MDTypography>
+                <MDTypography
+                  variant="button"
+                  color="text"
+                  fontWeight="regular"
+                >
+                  {user.UserRole}
+                </MDTypography>
+              </MDBox>
             </Grid>
           </Grid>
-        </MDBox>
-        <MDBox pt={2} px={2} lineHeight={1.25}>
-          <MDTypography variant="h6" fontWeight="medium">
-            Projects
-          </MDTypography>
-          <MDBox mb={1}>
-            <MDTypography variant="button" color="text">
-              Architects design houses
-            </MDTypography>
-          </MDBox>
-        </MDBox>
-        <MDBox p={2}>
-          <Grid container spacing={6}>
-            <Grid item xs={12} md={6} xl={3}>
-              <DefaultProjectCard
-                image={homeDecor1}
-                label="project #2"
-                title="modern"
-                description="As Uber works through a huge amount of internal management turmoil."
-                action={{
-                  type: "internal",
-                  route: "/pages/profile/profile-overview",
-                  color: "info",
-                  label: "view project",
-                }}
-                authors={[
-                  { image: team1, name: "Elena Morison" },
-                  { image: team2, name: "Ryan Milly" },
-                  { image: team3, name: "Nick Daniel" },
-                  { image: team4, name: "Peterson" },
-                ]}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} xl={3}>
-              <DefaultProjectCard
-                image={homeDecor2}
-                label="project #1"
-                title="scandinavian"
-                description="Music is something that everyone has their own specific opinion about."
-                action={{
-                  type: "internal",
-                  route: "/pages/profile/profile-overview",
-                  color: "info",
-                  label: "view project",
-                }}
-                authors={[
-                  { image: team3, name: "Nick Daniel" },
-                  { image: team4, name: "Peterson" },
-                  { image: team1, name: "Elena Morison" },
-                  { image: team2, name: "Ryan Milly" },
-                ]}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} xl={3}>
-              <DefaultProjectCard
-                image={homeDecor3}
-                label="project #3"
-                title="minimalist"
-                description="Different people have different taste, and various types of music."
-                action={{
-                  type: "internal",
-                  route: "/pages/profile/profile-overview",
-                  color: "info",
-                  label: "view project",
-                }}
-                authors={[
-                  { image: team4, name: "Peterson" },
-                  { image: team3, name: "Nick Daniel" },
-                  { image: team2, name: "Ryan Milly" },
-                  { image: team1, name: "Elena Morison" },
-                ]}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} xl={3}>
-              <DefaultProjectCard
-                image={homeDecor4}
-                label="project #4"
-                title="gothic"
-                description="Why would anyone pick blue over pink? Pink is obviously a better color."
-                action={{
-                  type: "internal",
-                  route: "/pages/profile/profile-overview",
-                  color: "info",
-                  label: "view project",
-                }}
-                authors={[
-                  { image: team4, name: "Peterson" },
-                  { image: team3, name: "Nick Daniel" },
-                  { image: team2, name: "Ryan Milly" },
-                  { image: team1, name: "Elena Morison" },
-                ]}
-              />
-            </Grid>
-          </Grid>
-        </MDBox>
-      </Header>
+          {openForm ? (
+            <MDBox p={2}>
+              <MDTypography mb={4} variant="h6" fontWeight="medium">
+                Modifier les informations
+              </MDTypography>
+              <Grid container spacing={6}>
+                <Grid item xs={12}>
+                  <MDBox component="form">
+                    <MDBox mb={2}>
+                      {" "}
+                      <TextField
+                        required
+                        id="username"
+                        name="username"
+                        label="Nom d'utilisateur"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    </MDBox>
+                    <MDBox mb={2}>
+                      <TextField
+                        id="name"
+                        name="name"
+                        label="Nom"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    </MDBox>
+                    <MDBox mb={2}>
+                      <TextField
+                        id="prenom"
+                        name="prenom"
+                        label="Prenom"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    </MDBox>
+                    <MDBox mb={2}>
+                      <TextField
+                        id="email"
+                        name="email"
+                        label="Adresse mail"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    </MDBox>
+
+                    <MDBox
+                      mt={4}
+                      mb={1}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "space-between",
+                      }}
+                    >
+                      <MDButton
+                        variant="gradient"
+                        color="info"
+                        type="submit"
+                        fullWidth
+                      >
+                        Valider
+                      </MDButton>
+                      <MDBox marginRight={2} marginLeft={2} mt={4} mb={1}>
+                        {""}
+                      </MDBox>
+                      <MDButton
+                        variant="gradient"
+                        sx={{ backgroundColor: "yellow", color: "black" }}
+                        type="button"
+                        onClick={() => setOpenForm(false)}
+                        fullWidth
+                      >
+                        Annuler
+                      </MDButton>
+                    </MDBox>
+                  </MDBox>
+                </Grid>
+              </Grid>
+            </MDBox>
+          ) : (
+            <MDBox
+              lineHeight={1.25}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                marginRight: 0,
+                marginLeft: 0,
+              }}
+            >
+              <MDTypography variant="h6" fontWeight="medium">
+                Nom
+                <MDBox mb={1} marginRight={9} marginLeft={9}>
+                  <MDTypography variant="button" color="text">
+                    {user.NOM ? user.NOM : "indefinis"}
+                  </MDTypography>
+                </MDBox>
+              </MDTypography>
+
+              <MDTypography variant="h6" fontWeight="medium">
+                Prenom
+                <MDBox mb={1} marginRight={9} marginLeft={9}>
+                  <MDTypography variant="button" color="text">
+                    {user.PRENOM ? user.PRENOM : "indefinis"}
+                  </MDTypography>
+                </MDBox>
+              </MDTypography>
+
+              <MDTypography variant="h6" fontWeight="medium">
+                Adresse Email
+                <MDBox mb={1} marginRight={9} marginLeft={9}>
+                  <MDTypography variant="button" color="text">
+                    {user.EMAIL ? user.EMAIL : "indefinis"}
+                  </MDTypography>
+                </MDBox>
+              </MDTypography>
+
+              <MDTypography variant="h6" fontWeight="medium">
+                Nom d'utilisateur
+                <MDBox mb={1} marginRight={9} marginLeft={9}>
+                  <MDTypography variant="button" color="text">
+                    {user.USERNAME ? user.USERNAME : "indefinis"}
+                  </MDTypography>
+                </MDBox>
+              </MDTypography>
+              <MDBox>
+                <MDButton
+                  variant="gradient"
+                  color="info"
+                  type="submit"
+                  fullWidth
+                  onClick={() => setOpenForm(true)}
+                >
+                  Modifier
+                </MDButton>
+              </MDBox>
+            </MDBox>
+          )}
+        </Card>
+      </MDBox>
+
       <Footer />
     </DashboardLayout>
   );
