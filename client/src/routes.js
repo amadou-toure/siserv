@@ -37,6 +37,10 @@ Coded by www.creative-tim.com
 
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
+import Users from "layouts/users";
+import Disques from "layouts/disques";
+import Rack from "layouts/rack";
+import Servers from "layouts/servers";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
@@ -56,6 +60,38 @@ const routes = [
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
     component: <Dashboard />,
+  },
+  {
+    type: "collapse",
+    name: "Utilisateurs",
+    key: "users",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/users",
+    component: <Users />,
+  },
+  {
+    type: "collapse",
+    name: "Serveurs",
+    key: "servers",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/servers",
+    component: <Servers />,
+  },
+  {
+    type: "collapse",
+    name: "Rack",
+    key: "rack",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/rack",
+    component: <Rack />,
+  },
+  {
+    type: "collapse",
+    name: "Disques",
+    key: "Disques",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/disques",
+    component: <Disques />,
   },
   {
     type: "collapse",
