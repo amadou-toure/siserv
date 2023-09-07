@@ -2,7 +2,7 @@ const getServer = async (_id, setServer) => {
   const handleresult = async (data) => {
     setServer(data.data);
   };
-  await fetch(`http://localhost:3000/api/server/${_id}`, {
+  await fetch(`http://localhost:3000/api/servers/${_id}`, {
     method: "get",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -20,7 +20,7 @@ const getAllServer = async (setServer) => {
   const handleresult = async (data) => {
     setServer(data.data);
   };
-  await fetch(`http://localhost:3000/api/server`, {
+  await fetch(`http://localhost:3000/api/servers`, {
     method: "get",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -39,7 +39,7 @@ const CreateServer = async (Server, setResult) => {
     setResult(data.code);
   };
   console.log(Server);
-  await fetch(`http://localhost:3000/api/server`, {
+  await fetch(`http://localhost:3000/api/servers`, {
     method: "post",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -60,7 +60,7 @@ const UpdateServer = async (id, Server, setResult) => {
     setResult(data.code);
   };
   console.log(id);
-  await fetch(`http://localhost:3000/api/server/${id}`, {
+  await fetch(`http://localhost:3000/api/servers/${id}`, {
     method: "put",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -80,7 +80,7 @@ const deleteServer = async (id, setResult) => {
   const handleresult = async (data) => {
     setResult(data.code);
   };
-  await fetch(`http://localhost:3000/api/server/${id}`, {
+  await fetch(`http://localhost:3000/api/servers/${id}`, {
     method: "delete",
     headers: {
       authorization: localStorage.getItem("token"),

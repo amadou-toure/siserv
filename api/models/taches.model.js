@@ -1,28 +1,24 @@
-var mongoose = require('mongoose');
-const observation = require('./observation.model')
+var mongoose = require("mongoose");
+
 var Schema = mongoose.Schema;
 var TACHE = new Schema({
-  SERVEURS: {
+  SERVEUR: {
     type: Schema.Types.ObjectId,
-    required: true
+    required: true,
   },
   ADMINISTRATEUR: {
     type: Schema.Types.ObjectId,
-    required: true
+    required: true,
   },
   MANAGER: {
     type: Schema.Types.ObjectId,
-    required: true
-  },
-  OBSERVATION: {
-    type: Schema.Types.ObjectId,
-    required: true
+    required: true,
   },
   MESSAGE: {
-    type: String
-  }
+    type: String,
+  },
 });
 
-const model = mongoose.model('TACHE',TACHE);
+const model = mongoose.model("TACHE", TACHE);
 
 module.exports = model;

@@ -2,7 +2,7 @@ const getTache = async (_id, setTache) => {
   const handleresult = async (data) => {
     setTache(data.data);
   };
-  await fetch(`http://localhost:3000/api/tache/${_id}`, {
+  await fetch(`http://localhost:3000/api/taches/${_id}`, {
     method: "get",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -20,7 +20,7 @@ const getAllTache = async (setTache) => {
   const handleresult = async (data) => {
     setTache(data.data);
   };
-  await fetch(`http://localhost:3000/api/tache`, {
+  await fetch(`http://localhost:3000/api/taches`, {
     method: "get",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -39,7 +39,7 @@ const CreateTache = async (Tache, setResult) => {
     setResult(data.code);
   };
   console.log(Tache);
-  await fetch(`http://localhost:3000/api/tache`, {
+  await fetch(`http://localhost:3000/api/taches`, {
     method: "post",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -60,7 +60,7 @@ const UpdateTache = async (id, Tache, setResult) => {
     setResult(data.code);
   };
   console.log(id);
-  await fetch(`http://localhost:3000/api/tache/${id}`, {
+  await fetch(`http://localhost:3000/api/taches/${id}`, {
     method: "put",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -80,7 +80,7 @@ const deleteTache = async (id, setResult) => {
   const handleresult = async (data) => {
     setResult(data.code);
   };
-  await fetch(`http://localhost:3000/api/tache/${id}`, {
+  await fetch(`http://localhost:3000/api/taches/${id}`, {
     method: "delete",
     headers: {
       authorization: localStorage.getItem("token"),

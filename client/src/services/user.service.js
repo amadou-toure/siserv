@@ -19,6 +19,24 @@ const getUser = async (setUser) => {
       handleresult(data);
     });
 };
+const getManager = async (id, setUser) => {
+  const handleresult = async (data) => {
+    setUser(data.data);
+  };
+  await fetch(`http://localhost:3000/api/users/${id}`, {
+    method: "get",
+    headers: {
+      authorization: localStorage.getItem("token"),
+      "content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      handleresult(data);
+    });
+};
 const getAllUsers = async (setUsers) => {
   const handleresult = async (data) => {
     setUsers(data.data);
@@ -57,4 +75,4 @@ const CreateUser = async (User, setResult) => {
       handleresult(data);
     });
 };
-export { getAllUsers, getUser, CreateUser };
+export { getAllUsers, getUser, CreateUser, getManager };

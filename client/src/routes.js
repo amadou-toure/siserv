@@ -49,6 +49,7 @@ import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import Identification from "layouts/identification";
+import Tache from "layouts/tache";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -66,7 +67,7 @@ const routes = [
     type: "collapse",
     name: "Identification",
     key: "Identification",
-    icon: <Icon fontSize="small">dashboard</Icon>,
+    icon: <Icon fontSize="small">table_view</Icon>,
     route: "/identification",
     component: <Identification />,
   },
@@ -82,7 +83,7 @@ const routes = [
     type: "collapse",
     name: "Serveurs",
     key: "servers",
-    icon: <Icon fontSize="small">person</Icon>,
+    icon: <Icon fontSize="small">storage</Icon>,
     route: "/servers",
     component: <Servers />,
   },
@@ -90,7 +91,7 @@ const routes = [
     type: "collapse",
     name: "Rack",
     key: "rack",
-    icon: <Icon fontSize="small">person</Icon>,
+    icon: <Icon fontSize="small">dns</Icon>,
     route: "/rack",
     component: <Rack />,
   },
@@ -98,9 +99,17 @@ const routes = [
     type: "collapse",
     name: "Disques",
     key: "Disques",
-    icon: <Icon fontSize="small">person</Icon>,
+    icon: <Icon fontSize="small">save</Icon>,
     route: "/disques",
     component: <Disques />,
+  },
+  {
+    type: "collapse",
+    name: "Taches",
+    key: "Tache",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/tache",
+    component: <Tache />,
   },
   {
     type: "collapse",
