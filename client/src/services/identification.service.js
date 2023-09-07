@@ -2,7 +2,7 @@ const getIdentification = async (_id, setIdentification) => {
   const handleresult = async (data) => {
     setIdentification(data.data);
   };
-  await fetch(`http://localhost:3000/api/identification/${_id}`, {
+  await fetch(`http://localhost:3000/api/identifications/${_id}`, {
     method: "get",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -20,7 +20,7 @@ const getAllIdentification = async (setIdentification) => {
   const handleresult = async (data) => {
     setIdentification(data.data);
   };
-  await fetch(`http://localhost:3000/api/identification`, {
+  await fetch(`http://localhost:3000/api/identifications`, {
     method: "get",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -39,7 +39,7 @@ const CreateIdentification = async (Identification, setResult) => {
     setResult(data.code);
   };
   console.log(Identification);
-  await fetch(`http://localhost:3000/api/identification`, {
+  await fetch(`http://localhost:3000/api/identifications`, {
     method: "post",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -60,7 +60,7 @@ const UpdateIdentification = async (id, Identification, setResult) => {
     setResult(data.code);
   };
   console.log(id);
-  await fetch(`http://localhost:3000/api/identification/${id}`, {
+  await fetch(`http://localhost:3000/api/identifications/${id}`, {
     method: "put",
     headers: {
       authorization: localStorage.getItem("token"),
@@ -80,7 +80,7 @@ const deleteIdentification = async (id, setResult) => {
   const handleresult = async (data) => {
     setResult(data.code);
   };
-  await fetch(`http://localhost:3000/api/identification/${id}`, {
+  await fetch(`http://localhost:3000/api/identifications/${id}`, {
     method: "delete",
     headers: {
       authorization: localStorage.getItem("token"),
