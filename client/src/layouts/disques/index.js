@@ -9,7 +9,11 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
+import { InputLabel, Select, MenuItem } from "@mui/material";
 import { TextField } from "@mui/material";
+import { getServer } from "services/server.service";
+import { getAllServer } from "services/server.service";
+import Icon from "@mui/material/Icon";
 import MDButton from "components/MDButton";
 
 // Data
@@ -26,6 +30,9 @@ const Disques = () => {
   const [openForm, setOpenForm] = useState(false);
   const [id, setId] = useState("");
   const [disques, setDisques] = useState([]);
+  const [selectedServer, setSelectedServer] = useState(0);
+  const [server, setServer] = useState([]);
+  const [serverHN, setServerHN] = useState();
   const [result, setResult] = useState(0);
   const [update, setUpdate] = useState(false);
   const handleDelete = async (id) => {
@@ -48,7 +55,7 @@ const Disques = () => {
       NOM: data.get("disquesname"),
       TYPE: data.get("type"),
       CAPACITE: data.get("capacite"),
-      SERVER: data.get("server"),
+      SERVER: selectedServer,
     };
     setOpenForm(false);
     setUpdate(false);
@@ -63,6 +70,11 @@ const Disques = () => {
       }
     }
   };
+  getAllServer(setServer);
+
+  const handleSelectedServer = (event) => {
+    setSelectedServer(event.target.value);
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -70,7 +82,7 @@ const Disques = () => {
       NOM: data.get("disquesname"),
       TYPE: data.get("type"),
       CAPACITE: data.get("capacite"),
-      SERVER: data.get("server"),
+      SERVER: selectedServer,
     };
     setOpenForm(false);
     await CreateDisques(disques, setResult);
@@ -140,14 +152,20 @@ const Disques = () => {
                       </MDBox>
                       <MDBox mb={2}>
                         {" "}
-                        <TextField
-                          required
+                        <InputLabel id="server">Serveur:</InputLabel>
+                        <Select
+                          labelId="server"
                           id="server"
-                          name="server"
-                          label="Server"
-                          variant="outlined"
-                          fullWidth
-                        />
+                          value={selectedServer}
+                          label="Choisir un serveur"
+                          onChange={handleSelectedServer}
+                        >
+                          {server.map((server) => (
+                            <MenuItem value={server._id}>
+                              {server.HOSTNAME}
+                            </MenuItem>
+                          ))}
+                        </Select>
                       </MDBox>
 
                       <MDBox
@@ -219,14 +237,20 @@ const Disques = () => {
                       </MDBox>
                       <MDBox mb={2}>
                         {" "}
-                        <TextField
-                          required
+                        <InputLabel id="server">Serveur:</InputLabel>
+                        <Select
+                          labelId="server"
                           id="server"
-                          name="server"
-                          label="Server"
-                          variant="outlined"
-                          fullWidth
-                        />
+                          value={selectedServer}
+                          label="Choisir un serveur"
+                          onChange={handleSelectedServer}
+                        >
+                          {server.map((server) => (
+                            <MenuItem value={server._id}>
+                              {server.HOSTNAME}
+                            </MenuItem>
+                          ))}
+                        </Select>
                       </MDBox>
 
                       <MDBox
@@ -334,29 +358,29 @@ const Disques = () => {
                               ? disques.SERVER
                               : "Indefinis",
                             action: (
-                              <>
-                                <MDTypography
-                                  component="a"
-                                  href="#"
-                                  variant="caption"
-                                  color="text"
-                                  fontWeight="medium"
+                              <MDBox
+                                display="flex"
+                                alignItems="center"
+                                mt={{ xs: 2, sm: 0 }}
+                                ml={{ xs: -1.5, sm: 0 }}
+                              >
+                                <MDBox mr={1}>
+                                  <MDButton
+                                    variant="text"
+                                    color="error"
+                                    onClick={() => handleDelete(disques._id)}
+                                  >
+                                    <Icon>delete</Icon>&nbsp;Supprimer
+                                  </MDButton>
+                                </MDBox>
+                                <MDButton
+                                  variant="text"
+                                  color="dark"
                                   onClick={() => openUpdate(disques._id)}
                                 >
-                                  modifier
-                                </MDTypography>
-                                <MDBox> </MDBox>
-                                <MDTypography
-                                  component="a"
-                                  href="#"
-                                  variant="caption"
-                                  color="text"
-                                  fontWeight="medium"
-                                  onClick={() => handleDelete(disques._id)}
-                                >
-                                  supprimer
-                                </MDTypography>
-                              </>
+                                  <Icon>edit</Icon>&nbsp;Modifier
+                                </MDButton>
+                              </MDBox>
                             ),
                           })),
                         }}

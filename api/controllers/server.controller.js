@@ -40,7 +40,6 @@ const getOneServer = async (req, res) => {
   } catch (err) {
     res.json({ message: err });
   }
-  s;
 };
 
 const deleteServer = async (req, res) => {

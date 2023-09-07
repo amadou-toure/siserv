@@ -15,14 +15,10 @@ import { TextField } from "@mui/material";
 import MDButton from "components/MDButton";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
 import { useState } from "react";
 import { getAllUsers, CreateUser } from "services/user.service";
 
 const Users = () => {
-  const { columns, rows } = authorsTableData();
-  const { columns: pColumns, rows: pRows } = projectsTableData();
   const [openForm, setOpenForm] = useState(false);
   const [users, setUsers] = useState([]);
   const [result, setResult] = useState(0);
