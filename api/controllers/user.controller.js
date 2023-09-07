@@ -71,7 +71,7 @@ const login = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const user = await userModel.findByIdAndUpdate(req.params.id, req.body);
+    await userModel.findByIdAndUpdate(req.params.id, req.body);
     res.json({ message: "Updated successfully", code: 204 });
   } catch (err) {
     res.json({ message: err, code: 500 });
@@ -89,7 +89,7 @@ const getOneUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const user = await userModel.findByIdAndDelete(req.params.id);
+    await userModel.findByIdAndDelete(req.params.id);
     res.json({ message: "Deleted successfully", code: 200 });
   } catch (err) {
     res.json({ message: err, code: 500 });

@@ -27,7 +27,7 @@ const createServer = async (req, res) => {
 const updateServer = async (req, res) => {
   try {
     await serverModel.findByIdAndUpdate(req.params.id, req.body);
-    res.json({ message: "updated successfully" });
+    res.json({ message: "updated successfully", code: 200 });
   } catch (err) {
     res.json({ message: `error: ${err}`, code: 500 });
   }
@@ -40,12 +40,13 @@ const getOneServer = async (req, res) => {
   } catch (err) {
     res.json({ message: err });
   }
+  s;
 };
 
 const deleteServer = async (req, res) => {
   try {
     const server = await serverModel.findByIdAndDelete(req.params.id);
-    res.json({ message: "deleted successfully" });
+    res.json({ message: "deleted successfully", code: 200 });
   } catch (err) {
     res.json({ message: err });
   }
